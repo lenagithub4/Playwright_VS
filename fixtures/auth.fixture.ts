@@ -1,29 +1,25 @@
-import { test as base, Page } from '@playwright/test';
+import { test as base, Page, expect } from '@playwright/test';
 
 import { LoginPage } from '../pages/LoginPage';
 import { users } from '../utils/testData';
 
 type AuthFixtures = {
-  loggedInPage: Page;
+    loggedInPage: Page;
 };
 
 export const test = base.extend<AuthFixtures>({
+    loggedInPage: async ({ page }, use) => {
+        const loginPage = new LoginPage(page);
 
-  loggedInPage: async ({ page }, use) => {
+        await loginPage.goto();
 
-    const loginPage = new LoginPage(page);
+        await loginPage.login(
+            users.standard.username,
+            users.standard.password
+        );
 
-    await loginPage.goto();
-
-    await loginPage.login(
-      users.standard.username,
-      users.standard.password
-    );
-
-    await use(page);
-
-  }
-
+        await use(page);
+    },
 });
 
-export { expect } from '@playwright/test';
+export { expect };

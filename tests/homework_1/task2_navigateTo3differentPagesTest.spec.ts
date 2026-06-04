@@ -1,29 +1,23 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
+import { test, expect} from '../../fixtures/auth.fixture'
 
-test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-
-    await loginPage.goto();
-    await loginPage.login('lenatest@aaro.com', 'LenaTest');
-
-    await expect(page.locator('h4')).toHaveText('Dashboard');
+test.beforeEach(async ({loggedInPage }) => {
+    await expect(loggedInPage.locator('h4')).toHaveText('Dashboard');
 });
 
 
 
 
-test('click menu Users', async ({ page }) => {
-    await page.getByTestId('nav-users').click();
-    await expect(page.locator('h4')).toHaveText('Users');
+test('click menu Users', async ({ loggedInPage }) => {
+    await loggedInPage.getByTestId('nav-users').click();
+    await expect(loggedInPage.locator('h4')).toHaveText('Users');
 });
 
-test('click menu Products', async ({ page }) => {
-    await page.getByTestId('nav-products').click();
-    await expect(page.locator('h4')).toHaveText('Products');
+test('click menu Products', async ({ loggedInPage }) => {
+    await loggedInPage.getByTestId('nav-products').click();
+    await expect(loggedInPage.locator('h4')).toHaveText('Products');
 });
 
-test('click menu Form Elements', async ({ page }) => {
-    await page.getByTestId('nav-form-elements').click();
-    await expect(page.locator('h4')).toHaveText('Form Elements');
+test('click menu Form Elements', async ({ loggedInPage }) => {
+    await loggedInPage.getByTestId('nav-form-elements').click();
+    await expect(loggedInPage.locator('h4')).toHaveText('Form Elements');
 });
